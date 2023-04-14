@@ -44,3 +44,4 @@ target/
 *.pdf
 /src/test/java/debug/
 *.apk
+/.idea/
