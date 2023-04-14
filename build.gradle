@@ -1,0 +1,62 @@
+plugins {
+    id 'java-library'
+    id "io.qameta.allure" version "2.11.2"
+    id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+def allureVersion = '2.21.0',
+    restAssuredVersion = '5.3.0',
+    commonsIoVersion = "2.11.0",
+    junitVersion = '5.9.2',
+    slf4jVersion = '2.0.5',
+    assertJVersion = "3.23.1",
+    aspectjVersion = "1.9.9.1"
+
+allure
+        {
+            report {
+                version.set(allureVersion)
+            }
+            adapter {
+                autoconfigure.set(true)
+                aspectjWeaver.set(true)
+                frameworks {
+                    junit5 {
+                        adapterVersion.set(allureVersion)
+                    }
+                }
+            }
+        }
+
+dependencies {
+    implementation(
+            "io.qameta.allure:allure-rest-assured:$allureVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "commons-io:commons-io:$commonsIoVersion",
+            "org.assertj:assertj-core:$assertJVersion",
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion",
+            "org.aspectj:aspectjweaver:$aspectjVersion",
+            "io.qameta.allure:allure-commandline:$allureVersion",
+
+            'com.github.javafaker:javafaker:1.0.2',
+            'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+    )
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"//, "standard_out"
+    }
+}
