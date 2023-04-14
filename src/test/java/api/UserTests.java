@@ -1,18 +1,17 @@
 package api;
 
-import api.endpoint.EndpointJwtAuthenticationController;
-import api.endpoint.EndpointUserController;
+import api.method.MethodJwtAuthenticationController;
+import api.method.MethodUserController;
 import api.spec.Specification;
 import com.github.javafaker.Faker;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-
-import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTests {
+
+    private final MethodUserController userController = new MethodUserController();
+    private final MethodJwtAuthenticationController jwtAuthenticationController = new MethodJwtAuthenticationController();
 
     @BeforeAll
     public static void setUp() {
@@ -26,67 +25,14 @@ public class UserTests {
         var faker = new Faker();
         String name = faker.name().firstName();
 
-        HashMap<String,Object> body = new HashMap<>();
-        body.put("login", name);
-        body.put("pass", name);
+        userController.register(name);
 
-        given()
-                .body(body)
-                .post(EndpointUserController.Post.register())
-                .then();
+        var token = jwtAuthenticationController.createAuthenticationToken(name);
 
-        body.clear();
-        body.put("password", name);
-        body.put("username", name);
-
-        var response = given()
-                .body(body)
-                .post(EndpointJwtAuthenticationController.Post.createAuthenticationToken())
-                .then()
-                .extract().response();
-
-        var token = response.jsonPath().getString("token");
-        System.out.println(token);
-
-        given()
-                .auth().oauth2(token)
-                .delete(EndpointUserController.Delete.user())
-                .then();
+        var message = userController.userDelete(token).jsonPath().getString("info.message");
+        assertThat(message).isEqualTo("User successfully deleted");
 
     }
 
-    @Test
-    public void newUser2() {
 
-        var faker = new Faker();
-        String name = faker.name().firstName();
-
-        HashMap<String,Object> body = new HashMap<>();
-        body.put("login", name);
-        body.put("pass", name);
-
-        given()
-                .body(body)
-                .post(EndpointUserController.Post.register())
-                .then();
-
-        body.clear();
-        body.put("password", name);
-        body.put("username", name);
-
-        var response = given()
-                .body(body)
-                .post(EndpointJwtAuthenticationController.Post.createAuthenticationToken())
-                .then()
-                .extract().response();
-
-        var token = response.jsonPath().getString("token");
-        System.out.println(token);
-
-        given()
-                .auth().oauth2(token)
-                .delete(EndpointUserController.Delete.user())
-                .then();
-
-    }
 }
