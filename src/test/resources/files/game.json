@@ -1,0 +1,24 @@
+{
+  "description": "Ведьмак 3",
+  "dlcs": [
+    {
+      "dlcName": "Кровь и вино",
+      "isDlcFree": false,
+      "price": 500
+    },
+    {
+      "dlcName": "Каменные сердца",
+      "isDlcFree": false,
+      "price": 300
+    }
+  ],
+  "genre": "RPG",
+  "isFree": false,
+  "price": 1500,
+  "requirements": {
+    "hardDrive": 100,
+    "osName": "Windows 10",
+    "ramGb": 8,
+    "videoCard": "NVIDIA"
+  }
+}
