@@ -59,4 +59,19 @@ tasks.withType(Test) {
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"//, "standard_out"
     }
+
+
+}
+
+task api(type: Test) {
+    systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+    systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
+    systemProperty 'junit.jupiter.execution.parallel.mode.default', 'concurrent'
+    systemProperty 'junit.jupiter.execution.parallel.mode.classes.default', 'concurrent'
+    systemProperty 'junit.jupiter.execution.parallel.config.strategy', 'dynamic'
+    systemProperty 'junit.jupiter.execution.parallel.config.dynamic.factor', '1'
+
+    useJUnitPlatform {
+        includeTags 'api'
+    }
 }
