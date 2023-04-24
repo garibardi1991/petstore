@@ -1,5 +1,6 @@
 package api;
 
+import api.helpers.Generator;
 import api.helpers.JsonMapper;
 import api.pojo.request.game_controller.add_game.PojoReqAddGame;
 import api.pojo.response.game_controller.add_game.PojoResAddGame;
@@ -13,7 +14,7 @@ public class UserTests2 extends BaseApiTest {
 
 
     public String registerUser() {
-        String name = faker.name().firstName();
+        String name = Generator.generateRndName();
         userController.register(name);
         return jwtAuthenticationController.createAuthenticationToken(name);
     }

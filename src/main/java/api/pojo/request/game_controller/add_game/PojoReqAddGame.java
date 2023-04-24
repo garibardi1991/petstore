@@ -18,6 +18,6 @@ public class PojoReqAddGame {
     private Boolean isFree;
     private Integer price;
     private Requirements requirements;
-    private List <Dlcs> dlcs;
+    private List<Dlcs> dlcs;
 
 }

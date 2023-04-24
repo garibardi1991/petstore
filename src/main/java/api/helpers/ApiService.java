@@ -8,7 +8,7 @@ import static io.restassured.RestAssured.given;
 public class ApiService {
 
     @Step("Post {endpoint}")
-    public static Response postResponse (Object body, String endpoint) {
+    public static Response postResponse(Object body, String endpoint) {
         return given()
                 .body(body)
                 .post(endpoint)
@@ -17,7 +17,7 @@ public class ApiService {
     }
 
     @Step("Delete {endpoint}")
-    public static Response deleteResponse (String token, String endpoint) {
+    public static Response deleteResponse(String token, String endpoint) {
         return given()
                 .auth().oauth2(token)
                 .delete(endpoint)
@@ -26,7 +26,7 @@ public class ApiService {
     }
 
     @Step("Post {endpoint} {jsonPath}")
-    public static String postJsonPathGetString (Object body, String endpoint, String jsonPath) {
+    public static String postJsonPathGetString(Object body, String endpoint, String jsonPath) {
         return given()
                 .body(body)
                 .post(endpoint)
@@ -35,11 +35,20 @@ public class ApiService {
     }
 
     @Step("Post {endpoint}")
-    public static Response postResponse (String token, Object body, String endpoint) {
+    public static Response postResponse(String token, Object body, String endpoint) {
         return given()
                 .auth().oauth2(token)
                 .body(body)
                 .post(endpoint)
+                .then()
+                .extract().response();
+    }
+
+    @Step("Get {endpoint}")
+    public static Response getResponse(String token, String endpoint) {
+        return given()
+                .auth().oauth2(token)
+                .get(endpoint)
                 .then()
                 .extract().response();
     }

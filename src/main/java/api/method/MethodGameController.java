@@ -56,7 +56,6 @@ public class MethodGameController {
     public Response addGame(String token, Object body) {
 
 
-
         return ApiService.postResponse(token, body, EndpointGameController.Post.addGame());
     }
 }

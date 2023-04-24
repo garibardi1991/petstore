@@ -25,4 +25,9 @@ public class MethodUserController {
         return ApiService.deleteResponse(token, EndpointUserController.Delete.user());
     }
 
+
+    @Step("Метод get userGet")
+    public Response userGet(String token) {
+        return ApiService.getResponse(token, EndpointUserController.Get.user());
+    }
 }
