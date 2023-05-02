@@ -109,21 +109,37 @@ public class CalculationsTests {
         getBigDecimal(a);
         getBigDecimal(b);
         getBigDecimal(c);
+        getBigDecimal(10.01f);
     }
 
+//    public BigDecimal getBigDecimal(Object o) {
+//        BigDecimal bigDecimal = null;
+//        var type = o.getClass();
+//
+//        if (type.equals(String.class)) {
+//            bigDecimal = new BigDecimal(o.toString());
+//        } else if (type.equals(Double.class)) {
+//            bigDecimal = BigDecimal.valueOf((double) o);
+//        } else if (type.equals(Integer.class)) {
+//            bigDecimal = BigDecimal.valueOf((int) o);
+//        }
+//
+//        return bigDecimal;
+//    }
+
     public BigDecimal getBigDecimal(Object o) {
-        BigDecimal bigDecimal = null;
-        var type = o.getClass();
-
-        if (type.equals(String.class)) {
-         bigDecimal = new BigDecimal(o.toString());
-        } else if (type.equals(Double.class)) {
-            bigDecimal = BigDecimal.valueOf((double) o);
-        } else if (type.equals(Integer.class)) {
-            bigDecimal = BigDecimal.valueOf((int) o);
+        switch (o.getClass().getSimpleName()) {
+            case "String":
+                return new BigDecimal(o.toString());
+            case "Integer":
+                return new BigDecimal((Integer) o);
+            case "Double":
+                return new BigDecimal((Double) o);
+            case "Float":
+                return new BigDecimal((Float) o);
+            default:
+                throw new IllegalArgumentException("Неизвестный тип: " + o.getClass().getSimpleName());
         }
-
-        return bigDecimal;
     }
 
     @Test
@@ -141,10 +157,10 @@ public class CalculationsTests {
         String a = "2";
         int b = 2;
 
-        compereBigDecimal(a,b);
+        compereBigDecimal(a, b);
     }
 
-    public void compereBigDecimal (Object o1, Object o2) {
+    public void compereBigDecimal(Object o1, Object o2) {
         var b1 = getBigDecimal(o1);
         var b2 = getBigDecimal(o2);
         assertThat(b1.compareTo(b2)).withFailMessage(b1 + " не равно " + b2).isEqualTo(0);
